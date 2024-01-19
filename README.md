@@ -1,1 +1,2 @@
-# django_base_code
+# Django Base Code
+## 01. Create Project
