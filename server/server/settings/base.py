@@ -7,9 +7,16 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 LOG_DIR = os.path.join(BASE_DIR, "logs")
-# logs 폴더가 없으면 생성
+STATIC_DIR = os.path.join(BASE_DIR, "static")
+MEDIA_DIR = os.path.join(BASE_DIR, "media")
+
+# logs, media, static 폴더가 없으면 생성
 if not os.path.exists(LOG_DIR):
     os.makedirs(LOG_DIR)
+if not os.path.exists(STATIC_DIR):
+    os.makedirs(STATIC_DIR)
+if not os.path.exists(MEDIA_DIR):
+    os.makedirs(MEDIA_DIR)
 
 env = environ.Env()
 env.read_env(os.path.join(BASE_DIR, "env", "base.env"))

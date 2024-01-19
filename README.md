@@ -38,4 +38,10 @@
   * script 에서 ec2 디렉토리 수정해야 함
 
 
+## DB 설정 & 배포 설정
+1. `env/development.env`, `env/production.env` DB 설정값 변경
+2. `redis` 설정
+3. `AWS S3` 설정 추가
+
+
 
