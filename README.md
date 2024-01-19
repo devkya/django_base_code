@@ -44,4 +44,9 @@
 3. `AWS S3` 설정 추가
 
 
+##  개발 & 프러덕션 배포 설정
+1. `manage.py` 수정 - `development.py로 runserver 실행
+2. `asgi.py` 수정
+  * `websocket`을 사용할 때만 구현하면 됨
+
 
