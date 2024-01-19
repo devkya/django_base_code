@@ -33,6 +33,9 @@
 
 
 ## 03. Github Action(CI/CD)
-1.
+1. `deploy.yml` 수정사항
+  * github settings 에서 `HOST`, `USERNAME`, `SSH_KEY` 설정해야 함
+  * script 에서 ec2 디렉토리 수정해야 함
+
 
 
