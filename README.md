@@ -19,3 +19,9 @@
 4. STATIC & MEDIA & TEMLATES
   * `static` 폴더가 앱 내에 있는 경우 `STATICFILE_DIRS` 설정해야 함
 
+5. `env` 설정
+  * `BASE_DIR`에 env 폴더를 생성하고 `base.env`, `development.env`, `production.env`를 생성함
+
+6. `logging` 설정[링크](https://kincoding.com/entry/Google-Gmail-SMTP-%EC%82%AC%EC%9A%A9%EC%9D%84-%EC%9C%84%ED%95%9C-%EC%84%B8%ED%8C%85)
+  * `base.env` `LOGGING_NAME, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, EMAIL_SUBJECT_PREFIX, EMAIL_LIST` 변경 필요
+
