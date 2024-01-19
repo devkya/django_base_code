@@ -1,0 +1,60 @@
+services:
+  dev-csound-server:
+    restart: always
+    image: dev-csound-server
+    container_name: dev-csound-server
+    env_file:
+      - env/dev.env
+    volumes:
+      - .:/app
+    build: 
+      context: .
+      dockerfile: dockerfiles/django.dev.Dockerfile
+    ports:
+      - "8001:8000"
+    depends_on:
+      - dev-csound-db
+
+  dev-csound-db:
+    restart: always
+    image: postgres:15.4-alpine
+    container_name:  dev-csound-db
+    env_file:
+      - env/dev.env
+    volumes:
+      - ./data/dev/db:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  dev-csound-pgadmin4:
+    restart: always
+    image: dpage/pgadmin4:latest
+    container_name: dev-csound-pgadmin4
+    env_file:
+      - env/dev.env
+    volumes:
+      - ./data/dev/pgadmin:/var/lib/pgadmin
+    ports: 
+      - "5051:80"
+    depends_on:
+      - dev-csound-db
+  
+  dev-csound-redis:
+    image: redis:6.2.13-bookworm
+    container_name: dev-csound-redis
+    ports:
+      - "6378:6379"
+
+# 추후 추가해야 함
+  # dev-celery:
+  #   restart: always
+  #   build: 
+  #     context: .
+  #   command: celery -A core worker -l INFO
+  #   volumes:
+  #       - .:/app
+  #   container_name: celery
+  #   depends_on:
+  #     - db
+  #     - redis
+  #     - django_gunicorn
