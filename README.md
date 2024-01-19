@@ -25,3 +25,11 @@
 6. `logging` 설정[링크](https://kincoding.com/entry/Google-Gmail-SMTP-%EC%82%AC%EC%9A%A9%EC%9D%84-%EC%9C%84%ED%95%9C-%EC%84%B8%ED%8C%85)
   * `base.env` `LOGGING_NAME, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, EMAIL_SUBJECT_PREFIX, EMAIL_LIST` 변경 필요
 
+
+## 02. Docker 설정
+1. `docker-compose.yml` 포트 및 이름 변경
+2. `env/dev.env, env/prod.env` 환경 변수 설정
+3. `nginx.conf` 도메인 이름 변경
+
+
+

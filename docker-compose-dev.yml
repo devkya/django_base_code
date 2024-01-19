@@ -1,8 +1,8 @@
 services:
-  dev-csound-server:
+  dev-app-server:
     restart: always
-    image: dev-csound-server
-    container_name: dev-csound-server
+    image: dev-app-server
+    container_name: dev-app-server
     env_file:
       - env/dev.env
     volumes:
@@ -13,12 +13,12 @@ services:
     ports:
       - "8001:8000"
     depends_on:
-      - dev-csound-db
+      - dev-app-db
 
-  dev-csound-db:
+  dev-app-db:
     restart: always
     image: postgres:15.4-alpine
-    container_name:  dev-csound-db
+    container_name:  dev-app-db
     env_file:
       - env/dev.env
     volumes:
@@ -26,10 +26,10 @@ services:
     ports:
       - "5433:5432"
 
-  dev-csound-pgadmin4:
+  dev-app-pgadmin4:
     restart: always
     image: dpage/pgadmin4:latest
-    container_name: dev-csound-pgadmin4
+    container_name: dev-app-pgadmin4
     env_file:
       - env/dev.env
     volumes:
@@ -37,11 +37,11 @@ services:
     ports: 
       - "5051:80"
     depends_on:
-      - dev-csound-db
+      - dev-app-db
   
-  dev-csound-redis:
+  dev-app-redis:
     image: redis:6.2.13-bookworm
-    container_name: dev-csound-redis
+    container_name: dev-app-redis
     ports:
       - "6378:6379"
 

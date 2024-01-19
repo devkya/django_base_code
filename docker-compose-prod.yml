@@ -1,8 +1,8 @@
 services:
-  prod-csound-server:
+  prod-app-server:
     restart: always
-    image: prod-csound-server
-    container_name: prod-csound-server
+    image: prod-app-server
+    container_name: prod-app-server
     env_file:
       - env/prod.env
     volumes:
@@ -14,10 +14,10 @@ services:
       - "8000:8000"
 
 
-  prod-csound-daphne:
+  prod-app-daphne:
     restart: always
-    image: prod-csound-daphne
-    container_name: prod-csound-daphne
+    image: prod-app-daphne
+    container_name: prod-app-daphne
     env_file:
       - env/prod.env
     ports:
@@ -27,8 +27,8 @@ services:
       dockerfile: dockerfiles/daphne.prod.Dockerfile
 
 
-  prod-csound-pgadmin4:
-    container_name: prod-csound-pgadmin4
+  prod-app-pgadmin4:
+    container_name: prod-app-pgadmin4
     image: dpage/pgadmin4:latest
     restart: always
     env_file:
@@ -37,8 +37,8 @@ services:
       - "5050:8080"
 
 
-  prod-csound-nginx:
-    container_name: prod-csound-nginx
+  prod-app-nginx:
+    container_name: prod-app-nginx
     image: nginx:latest
     build: 
       context: .
@@ -46,14 +46,14 @@ services:
     ports: 
       - 80:80
     depends_on:
-      - prod-csound-server
-      - prod-csound-daphne
-      - prod-csound-pgadmin4
+      - prod-app-server
+      - prod-app-daphne
+      - prod-app-pgadmin4
   
 
-  prod-csound-redis:
+  prod-app-redis:
     image: redis:6.2.13-bookworm
-    container_name: prod-csound-redis
+    container_name: prod-app-redis
     ports:
       - "6379:6379"
 
