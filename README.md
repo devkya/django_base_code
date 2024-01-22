@@ -48,7 +48,15 @@
 1. `manage.py` 수정 - `development.py로 runserver 실행
 2. `asgi.py` 수정
   * `websocket`을 사용할 때만 구현하면 됨
-3. TODO: ws 구현하면 됨
+  * 예시 `stream` App 생성
+
+
+ ## Config(Middleware, Error, S3)
+ 1. `MiddleWare` : websocket 사용 시 Authorization 할당을 위한 `middleware.py` 커스텀 -> 사용 시 유저에 맞게 수정 필요
+ 2. `Error` : 필요에 따라 에러 코드 수정 필요함
+ 3. `AWS S3` 사용 시, `production.py` 내용 수정 필요함
+ 4. `email_template.html` : 사용자 정의 필요
+ 5. `templates/admin/base_site.html` : 관리자 페이지 favicon을 적용하기 위해 오버라이딩
 
 
 
