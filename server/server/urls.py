@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from drf_spectacular.views import (
+    SpectacularAPIView,
     SpectacularRedocView,
     SpectacularSwaggerView,
 )
@@ -17,6 +18,7 @@ urlpatterns = [
 
 # drf-spectacular
 urlpatterns += [
+    path("openapi/", SpectacularAPIView.as_view(), name="schema"),
     path(
         "openapi/swagger/",
         SpectacularSwaggerView.as_view(url_name="schema"),
@@ -41,3 +43,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+admin.site.site_header = "App 관리자 페이지"
+admin.site.site_title = "App Admin Page"
+admin.site.index_title = "데이터 관리"

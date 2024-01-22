@@ -1,7 +1,8 @@
 # Django Base Code
 ## 00. 필수 패키지 설치 및 프로젝트 생성
-1. `pipenv install django django-environ djangorestframework psycopg2-binary django-cleanup channels channels-redis django-cors-headers djangorestframework-simplejwt drf-spectacular gunicorn daphne boto3 django-storages `
-2. `django-admin startproject server`
+1. `pip install pipenv` 
+2. `pipenv install django django-environ djangorestframework psycopg2-binary django-cleanup channels channels-redis django-cors-headers djangorestframework-simplejwt drf-spectacular gunicorn daphne boto3 django-storages `
+3. `django-admin startproject server`
 
 ## 01. 환경 설정
 ### `settings.py` 분리

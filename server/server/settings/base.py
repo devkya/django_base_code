@@ -57,7 +57,7 @@ MIDDLEWARE = [
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         # "rest_framework.permissions.IsAuthenticated",
-        "rest_framework,permissions.AllowAny",  # TODO: simplejwt 구현 후 변경
+        "rest_framework.permissions.AllowAny",  # TODO: simplejwt 구현 후 변경
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
