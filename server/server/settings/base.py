@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "django_cleanup.apps.CleanupConfig",
     # Apps
+    "stream",
 ]
 
 MIDDLEWARE = [
@@ -163,7 +164,7 @@ EMAIL_HOST = "smtp.gmail.com"  # 사용할 이메일 서버의 호스트
 EMAIL_PORT = 587  # 이메일 서버의 포트
 EMAIL_USE_TLS = True  # TLS 사용 설정
 EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")  # TODO: 이메일 계정(base.env 수정 필요)
-EMAIL_HOST_PASSWORD = env.str("GOOGLE_SMTP_PWD")  # TODO: 이메일 비밀번호(base.env 수정 필요)
+EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD")  # TODO: 이메일 비밀번호(base.env 수정 필요)
 EMAIL_SUBJECT_PREFIX = env.str("EMAIL_SUBJECT_PREFIX")  # TODO: 이메일 접두사(base.env 수정 필요)
 
 # CORS
