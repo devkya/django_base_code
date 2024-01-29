@@ -27,6 +27,16 @@ CHANNEL_LAYERS = {
     },
 }
 
+# CELERY
+CELERY_BROKER_URL = "redis://prod-csound-redis:6379/0"
+CELERY_RESULT_BACKEND = "redis://prod-csound-redis:6379/0"
+CELERY_BEAT_SCHEDULE = {
+    "테스트": {
+        "task": "analysis.tasks.test_celery",
+        "schedule": timedelta(seconds=10),
+    }
+}
+
 # S3
 # STATICFILES_STORAGE = "config.storages.StaticStorage"
 # DEFAULT_FILE_STORAGE = "config.storages.MediaStorage"

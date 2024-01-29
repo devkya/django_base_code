@@ -39,22 +39,56 @@ services:
     depends_on:
       - dev-app-db
   
-  dev-app-redis:
+  dev-redis:
     image: redis:6.2.13-bookworm
-    container_name: dev-app-redis
+    container_name: dev-redis
     ports:
       - "6378:6379"
 
-# 추후 추가해야 함
-  # dev-celery:
-  #   restart: always
-  #   build: 
-  #     context: .
-  #   command: celery -A core worker -l INFO
-  #   volumes:
-  #       - .:/app
-  #   container_name: celery
-  #   depends_on:
-  #     - db
-  #     - redis
-  #     - django_gunicorn
+  dev-celery-worker:
+      restart: always
+      image: dev-celery-worker
+      container_name: dev-celery-worker
+      environment:
+        - CELERY_WORKER=True
+      env_file:
+        - env/dev.env
+      volumes:
+        - .:/app
+      build: 
+        context: .
+        dockerfile: dockerfiles/django.dev.Dockerfile
+      depends_on:
+        - dev-csound-db
+        - dev-csound-redis
+        
+  dev-celery-beat:
+      restart: always
+      image: dev-celery-beat
+      container_name: dev-celery-beat
+      environment:
+        - CELERY_BEAT=True
+      env_file:
+      - env/dev.env
+      volumes:
+        - .:/app
+      build: 
+        context: .
+        dockerfile: dockerfiles/django.dev.Dockerfile
+      depends_on:
+        - dev-csound-db
+        - dev-csound-redis
+  
+  csound-flower:
+      restart: always
+      container_name: csound-flower
+      image: mher/flower
+      environment:
+        - CELERY_BROKER_URL=redis://dev-csound-redis:6379/0
+        - FLOWER_PORT=5555
+      ports:
+        - 5555:5555
+      depends_on:
+        - dev-csound-redis
+        - dev-celery-worker
+        - dev-celery-beat

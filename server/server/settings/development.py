@@ -22,7 +22,17 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("dev-app-redis", 6379)],
+            "hosts": [("dev-redis", 6379)],
         },
     },
 }
+
+# CELERY
+CELERY_BROKER_URL = "redis://dev-redis:6379/0"
+CELERY_RESULT_BACKEND = "redis://dev-redis:6379/0"
+# CELERY_BEAT_SCHEDULE = {
+#     "테스트": {
+#         "task": "analysis.tasks.test_celery",
+#         "schedule": timedelta(seconds=10),
+#     }
+# }
