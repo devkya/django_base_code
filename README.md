@@ -1,21 +1,20 @@
 # Django Base Code
 ## 00. 필수 패키지 설치 및 프로젝트 생성
 1. `pip install pipenv` 
-2. `pipenv install django django-environ djangorestframework psycopg2-binary django-cleanup channels channels-redis django-cors-headers djangorestframework-simplejwt drf-spectacular gunicorn daphne boto3 django-storages `
+2. `pipenv install django django-environ djangorestframework psycopg2-binary django-cleanup channels channels-redis django-cors-headers djangorestframework-simplejwt drf-spectacular gunicorn daphne boto3 django-storages django-celery-beat`
 3. `django-admin startproject server`
 
 ## 01. 환경 설정
 ### `settings.py` 분리
-1. 개발, 프러덕션 환경을 분리하기 위해 `settings.py`를 `base.py`, `development.py`, `production.py`로 분리한다. `BASE_DIR`에 유의하자!
-
-2. 베이스 코드에서는 `SECRET_KEY`를 랜덤 생성한다. 생성 후 base.env에 고정값으로 등록해야 함(프로젝트 리빌드 시 JWT `SIGNING KEY`가 변경되면서 `token`이 유효하지 않는 문제 발생)
-
+1. 개발, 프러덕션 환경을 분리하기 위해 `settings.py`를 `base.py`, `development.py`, `production.py`로 분리한다. 디렉토리 `depth`가 변경되었기 때문에 `BASE_DIR` 수정해야 한다.
+2. 베이스 코드에서는 `SECRET_KEY`를 랜덤 생성한다. 생성 후 base.env에 고정값으로 등록해야 함(프로젝트 리빌드 시 JWT `SIGNING KEY`가 변경되면서 `token`이 유효하지 않는 문제 발생할 수 있음)
 3. `third party` 라이브러리 설정
   * [drf](https://www.django-rest-framework.org/)
   * [django-cors-headers](https://pypi.org/project/django-cors-headers/) : `CORS`, `CSRF` 추가
   * [drf-spectacular](https://drf-spectacular.readthedocs.io/en/latest/)
   * [drf-simplejwt](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/)
   * [django-cleanup](https://pypi.org/project/django-cleanup/) : `ImageField`, `FileField` 인스턴스 삭제 시 파일 삭제해주는 라이브러리
+  * [django-celery-beat](https://github.com/celery/django-celery-beat) : 비동기 작업 처리 라이브러리
 
 4. STATIC & MEDIA & TEMLATES
   * `static` 폴더가 앱 내에 있는 경우 `STATICFILE_DIRS` 설정해야 함
@@ -53,11 +52,12 @@
 
 
  ## Config(Middleware, Error, S3)
- 1. `MiddleWare` : websocket 사용 시 Authorization 할당을 위한 `middleware.py` 커스텀 -> 사용 시 유저에 맞게 수정 필요
- 2. `Error` : 필요에 따라 에러 코드 수정 필요함
- 3. `AWS S3` 사용 시, `production.py` 내용 수정 필요함
- 4. `email_template.html` : 사용자 정의 필요
- 5. `templates/admin/base_site.html` : 관리자 페이지 favicon을 적용하기 위해 오버라이딩
+ 1. `Mi` : websocket 사용 시 Authorization 할당을 위한 `middleware.py` 커스텀 -> 사용 시 유저에 맞게 수정 필요
+ 2. `exceptions.py` : 정의된 클래스를 사용하여 에러 정의함
+ 3. `exception_handler.py` : 에러 핸들러임. `base.py` 에서 설정 필요
+ 4. `AWS S3` 사용 시, `production.py` 내용 수정 필요함
+ 5. `email_template.html` : 사용자 정의 필요
+ 6. `templates/admin/base_site.html` : 관리자 페이지 favicon을 적용하기 위해 오버라이딩
 
 
 
