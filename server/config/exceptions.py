@@ -1,4 +1,3 @@
-import rest_framework.status as status
 from rest_framework.exceptions import APIException
 from rest_framework.response import Response
 

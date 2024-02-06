@@ -6,22 +6,20 @@ import os
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
-LOG_DIR = os.path.join(BASE_DIR, "logs")
-STATIC_DIR = os.path.join(BASE_DIR, "static")
-MEDIA_DIR = os.path.join(BASE_DIR, "media")
 
-# logs, media, static 폴더가 없으면 생성
-if not os.path.exists(LOG_DIR):
-    os.makedirs(LOG_DIR)
-if not os.path.exists(STATIC_DIR):
-    os.makedirs(STATIC_DIR)
-if not os.path.exists(MEDIA_DIR):
-    os.makedirs(MEDIA_DIR)
+# 필요한 디렉토리 생성
+os.makedirs(os.path.join(BASE_DIR, "logs"), exist_ok=True)
+os.makedirs(os.path.join(BASE_DIR, "static"), exist_ok=True)
+os.makedirs(os.path.join(BASE_DIR, "media"), exist_ok=True)
 
+# env 파일 읽기
 env = environ.Env()
 env.read_env(os.path.join(BASE_DIR, "env", "base.env"))
 
-SECRET_KEY = get_random_secret_key()  # TODO: change to env variable
+LOGGING_NAME = env.str("LOGGING_NAME")
+SECRET_KEY = (
+    get_random_secret_key()
+)  # TODO: 고정값을 사용하는 것이 좋음(simplejwt sign key로 사용되기 때문에 변경 시 AUTH 문제 발생 가능)
 # SECRET_KEY = env.str("SECRET_KEY")
 
 # Application definition
@@ -64,6 +62,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",  # drf-spectacular
+    "EXCEPTION_HANDLER": "config.exception_handler.custom_exception_handler",
 }
 
 SIMPLE_JWT = {
@@ -145,7 +144,7 @@ LOGGING = {
             "level": "INFO",
             "propagate": True,
         },
-        env.str("LOGGING_NAME"): {
+        LOGGING_NAME: {
             "handlers": ["console", "mail_admins", "file"],
             "level": "ERROR",
         },  # TODO: 로깅 이름 변경(base.env)
@@ -165,8 +164,12 @@ EMAIL_HOST = "smtp.gmail.com"  # 사용할 이메일 서버의 호스트
 EMAIL_PORT = 587  # 이메일 서버의 포트
 EMAIL_USE_TLS = True  # TLS 사용 설정
 EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")  # TODO: 이메일 계정(base.env 수정 필요)
-EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD")  # TODO: 이메일 비밀번호(base.env 수정 필요)
-EMAIL_SUBJECT_PREFIX = env.str("EMAIL_SUBJECT_PREFIX")  # TODO: 이메일 접두사(base.env 수정 필요)
+EMAIL_HOST_PASSWORD = env.str(
+    "EMAIL_HOST_PASSWORD"
+)  # TODO: 이메일 비밀번호(base.env 수정 필요)
+EMAIL_SUBJECT_PREFIX = env.str(
+    "EMAIL_SUBJECT_PREFIX"
+)  # TODO: 이메일 접두사(base.env 수정 필요)
 
 # CORS
 CORS_ALLOW_ALL_ORIGINS = True  # TODO: False로 변경
@@ -196,17 +199,6 @@ TEMPLATES = [
 WSGI_APPLICATION = "server.wsgi.application"
 
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
-
-
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -233,7 +225,9 @@ USE_TZ = True
 
 # STATIC & MEDIA
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")  # collectstatic 수행 시 정적 파일을 모으는 장소
+STATIC_ROOT = os.path.join(
+    BASE_DIR, "staticfiles"
+)  # collectstatic 수행 시 정적 파일을 모으는 장소
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, "app", "static"),  # TODO: app 내에 static 폴더 생성 후 정적 파일 관리
 # ]

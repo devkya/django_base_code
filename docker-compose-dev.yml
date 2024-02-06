@@ -39,16 +39,16 @@ services:
     depends_on:
       - dev-app-db
   
-  dev-redis:
+  dev-app-redis:
     image: redis:6.2.13-bookworm
-    container_name: dev-redis
+    container_name: dev-app-redis
     ports:
-      - "6378:6379"
+      - "6377:6379"
 
-  dev-celery-worker:
+  dev-app-celery-worker:
       restart: always
-      image: dev-celery-worker
-      container_name: dev-celery-worker
+      image: dev-app-celery-worker
+      container_name: dev-app-celery-worker
       environment:
         - CELERY_WORKER=True
       env_file:
@@ -59,13 +59,13 @@ services:
         context: .
         dockerfile: dockerfiles/django.dev.Dockerfile
       depends_on:
-        - dev-csound-db
-        - dev-csound-redis
+        - dev-app-db
+        - dev-app-redis
         
-  dev-celery-beat:
+  dev-app-celery-beat:
       restart: always
-      image: dev-celery-beat
-      container_name: dev-celery-beat
+      image: dev-app-celery-beat
+      container_name: dev-app-celery-beat
       environment:
         - CELERY_BEAT=True
       env_file:
@@ -76,19 +76,19 @@ services:
         context: .
         dockerfile: dockerfiles/django.dev.Dockerfile
       depends_on:
-        - dev-csound-db
-        - dev-csound-redis
+        - dev-app-db
+        - dev-app-redis
   
-  csound-flower:
+  dev-app-celery-flower:
       restart: always
-      container_name: csound-flower
+      container_name: dev-app-celery-flower
       image: mher/flower
       environment:
-        - CELERY_BROKER_URL=redis://dev-csound-redis:6379/0
+        - CELERY_BROKER_URL=redis://dev-app-redis:6379/0
         - FLOWER_PORT=5555
       ports:
         - 5555:5555
       depends_on:
-        - dev-csound-redis
-        - dev-celery-worker
-        - dev-celery-beat
+        - dev-app-redis
+        - dev-app-celery-worker
+        - dev-app-celery-beat

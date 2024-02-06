@@ -44,6 +44,7 @@ from django.conf.urls.static import static
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+# Admin 페이지 설정
 admin.site.site_header = "App 관리자 페이지"
 admin.site.site_title = "App Admin Page"
 admin.site.index_title = "데이터 관리"

@@ -21,5 +21,4 @@ class CustomAdminEmailHandler(AdminEmailHandler):
             )
 
         except Exception as e:
-            print(">>>>> error:", e)
             self.handleError(record)
