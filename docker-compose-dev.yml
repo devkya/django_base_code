@@ -11,7 +11,7 @@ services:
       context: .
       dockerfile: dockerfiles/django.dev.Dockerfile
     ports:
-      - "8001:8000"
+      - "8000:8000"
     depends_on:
       - dev-app-db
 
@@ -24,7 +24,7 @@ services:
     volumes:
       - ./data/dev/db:/var/lib/postgresql/data
     ports:
-      - "5433:5432"
+      - "5432:5432"
 
   dev-app-pgadmin4:
     restart: always
@@ -35,7 +35,7 @@ services:
     volumes:
       - ./data/dev/pgadmin:/var/lib/pgadmin
     ports: 
-      - "5051:80"
+      - "5050:80"
     depends_on:
       - dev-app-db
   
@@ -43,7 +43,7 @@ services:
     image: redis:6.2.13-bookworm
     container_name: dev-app-redis
     ports:
-      - "6377:6379"
+      - "6379:6379"
 
   dev-app-celery-worker:
       restart: always
@@ -79,16 +79,4 @@ services:
         - dev-app-db
         - dev-app-redis
   
-  dev-app-celery-flower:
-      restart: always
-      container_name: dev-app-celery-flower
-      image: mher/flower
-      environment:
-        - CELERY_BROKER_URL=redis://dev-app-redis:6379/0
-        - FLOWER_PORT=5555
-      ports:
-        - 5555:5555
-      depends_on:
-        - dev-app-redis
-        - dev-app-celery-worker
-        - dev-app-celery-beat
+
