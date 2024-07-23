@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # dev.env에 설정되어 있는 값
 DB_NAME=dev-app-db
 DB_USER=admin

@@ -24,14 +24,9 @@ RUN pip install --upgrade pip \
     && rm -rf /root/.cache/pip
 
 # 애플리케이션 소스 코드 복사
-COPY ./server .
-COPY ./scripts/django-run.sh /app/
-
-# 스크립트 파일 실행 권한 부여
-RUN echo "Listing . directory:" \
-    && ls -al . \
-    && echo "Listing /app directory:" \
-    && ls -al /app
+COPY server /app/server
+COPY scripts/django-run.sh /app/
+RUN chmod +x /app/django-run.sh
 
 # ENTRYPOINT로 스크립트 실행
 ENTRYPOINT ["sh", "-c", "/app/django-run.sh"]
