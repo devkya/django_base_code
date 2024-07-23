@@ -3,8 +3,8 @@ services:
     restart: always
     image: dev-app-server
     container_name: dev-app-server
-    env_file:
-      - env/dev.env
+    environment:
+      - DEBUG=True
     volumes:
       - .:/app
     build: 
@@ -19,8 +19,10 @@ services:
     restart: always
     image: postgres:15.4-alpine
     container_name:  dev-app-db
-    env_file:
-      - env/dev.env
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=1q2w3e!Q
+      - POSTGRES_DB=dev-app-db
     volumes:
       - ./data/dev/db:/var/lib/postgresql/data
     ports:
@@ -30,8 +32,9 @@ services:
     restart: always
     image: dpage/pgadmin4:latest
     container_name: dev-app-pgadmin4
-    env_file:
-      - env/dev.env
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@xpertinc.co.kr
+      - PGADMIN_DEFAULT_PASSWORD=1q2w3e!Q
     volumes:
       - ./data/dev/pgadmin:/var/lib/pgadmin
     ports: 
@@ -51,8 +54,7 @@ services:
       container_name: dev-app-celery-worker
       environment:
         - CELERY_WORKER=True
-      env_file:
-        - env/dev.env
+        - DEBUG=True
       volumes:
         - .:/app
       build: 
@@ -68,8 +70,7 @@ services:
       container_name: dev-app-celery-beat
       environment:
         - CELERY_BEAT=True
-      env_file:
-      - env/dev.env
+        - DEBUG=True
       volumes:
         - .:/app
       build: 

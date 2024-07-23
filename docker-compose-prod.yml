@@ -3,10 +3,8 @@ services:
     restart: always
     image: prod-app-server
     container_name: prod-app-server
-    env_file:
-      - env/prod.env
-    volumes:
-      - .:/app
+    environment:
+      - DEBUG=False
     build:
       context: .
       dockerfile: dockerfiles/django.Dockerfile
@@ -18,8 +16,8 @@ services:
     restart: always
     image: prod-app-daphne
     container_name: prod-app-daphne
-    env_file:
-      - env/prod.env
+    environment:
+      - DEBUG=False
     ports:
       - "6000:6000"
     build:
@@ -31,11 +29,11 @@ services:
     container_name: prod-app-pgadmin4
     image: dpage/pgadmin4:latest
     restart: always
-    env_file:
-      - env/prod.env
+    environment:
+      PGADMIN_DEFAULT_EMAIL = xpert@xpertinc.co.kr
+      PGADMIN_DEFAULT_PASSWORD = 1q2w3e!Q
     ports:
       - "5050:8080"
-
 
 
   prod-app-redis:
@@ -44,21 +42,20 @@ services:
     ports:
       - "6379:6379"
 
+
   prod-celery-worker:
     restart: always
     image: prod-celery-worker
     container_name: prod-celery-worker
     environment:
       - CELERY_WORKER=True
-    env_file:
-      - env/prod.env
-    volumes:
-      - .:/app
+      - DEBUG=False
     build:
       context: .
-      dockerfile: dockerfiles/django.prod.Dockerfile
+      dockerfile: dockerfiles/django.Dockerfile
     depends_on:
       - prod-redis
+
 
   prod-celery-beat:
     restart: always
@@ -66,13 +63,10 @@ services:
     container_name: prod-celery-beat
     environment:
       - CELERY_BEAT=True
-    env_file:
-      - env/prod.env
-    volumes:
-      - .:/app
+      - DEBUG=False
     build:
       context: .
-      dockerfile: dockerfiles/django.prod.Dockerfile
+      dockerfile: dockerfiles/django.Dockerfile
     depends_on:
       - prod-app-redis
 
