@@ -9,7 +9,7 @@ services:
       - .:/app
     build:
       context: .
-      dockerfile: dockerfiles/django.prod.Dockerfile
+      dockerfile: dockerfiles/django.Dockerfile
     ports:
       - "8000:8000"
 
@@ -24,7 +24,7 @@ services:
       - "6000:6000"
     build:
       context: .
-      dockerfile: dockerfiles/daphne.prod.Dockerfile
+      dockerfile: dockerfiles/daphne.Dockerfile
 
 
   prod-app-pgadmin4:

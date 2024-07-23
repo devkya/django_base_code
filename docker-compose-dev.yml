@@ -9,7 +9,7 @@ services:
       - .:/app
     build: 
       context: .
-      dockerfile: dockerfiles/django.dev.Dockerfile
+      dockerfile: dockerfiles/django.Dockerfile
     ports:
       - "8000:8000"
     depends_on:
