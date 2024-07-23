@@ -8,7 +8,7 @@ services:
     volumes:
       - .:/app
     build: 
-      context: .
+      context: ..
       dockerfile: dockerfiles/django.Dockerfile
     ports:
       - "8000:8000"
@@ -29,18 +29,21 @@ services:
       - "5432:5432"
 
   dev-app-pgadmin4:
-    restart: always
-    image: dpage/pgadmin4:latest
-    container_name: dev-app-pgadmin4
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@xpertinc.co.kr
-      - PGADMIN_DEFAULT_PASSWORD=1q2w3e!Q
-    volumes:
-      - ./data/dev/pgadmin:/var/lib/pgadmin
-    ports: 
-      - "5050:80"
-    depends_on:
-      - dev-app-db
+      restart: always
+      image: dev-app-pgadmin4
+      container_name: dev-app-pgadmin4
+      environment:
+        - PGADMIN_DEFAULT_EMAIL=admin@xpertinc.co.kr
+        - PGADMIN_DEFAULT_PASSWORD=1q2w3e!Q
+      volumes:
+        - ./data/dev/pgadmin:/var/lib/pgadmin
+      ports:
+        - "5050:80"
+      depends_on:
+        - dev-app-db
+      build:
+        context: .
+        dockerfile: dockerfiles/pgadmin4.Dockerfile
   
   dev-app-redis:
     image: redis:6.2.13-bookworm
@@ -59,7 +62,7 @@ services:
         - .:/app
       build: 
         context: .
-        dockerfile: dockerfiles/django.dev.Dockerfile
+        dockerfile: dockerfiles/django.Dockerfile
       depends_on:
         - dev-app-db
         - dev-app-redis
@@ -75,7 +78,7 @@ services:
         - .:/app
       build: 
         context: .
-        dockerfile: dockerfiles/django.dev.Dockerfile
+        dockerfile: dockerfiles/django.Dockerfile
       depends_on:
         - dev-app-db
         - dev-app-redis

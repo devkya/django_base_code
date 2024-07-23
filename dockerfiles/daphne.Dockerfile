@@ -26,9 +26,11 @@ RUN pip install --upgrade pip \
 COPY ./server .
 COPY scripts/daphne-run.sh .
 
-RUN chmod +x scripts/daphne-run.sh
+# 스크립트 파일 실행 권한 부여
+RUN chmod +x /app/daphne-run.sh
 
-ENTRYPOINT ["./daphne-run.sh"]
+# ENTRYPOINT로 스크립트 실행
+ENTRYPOINT ["sh", "-c", "/app/daphne-run.sh"]
 
 
 

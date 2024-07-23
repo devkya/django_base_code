@@ -2,7 +2,6 @@
 # django-run.sh
 
 set -e
-cd server
 
 if [ "$DEBUG" = "True" ]; then
     export DJANGO_SETTINGS_MODULE=server.settings.development

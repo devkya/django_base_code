@@ -26,14 +26,17 @@ services:
 
 
   prod-app-pgadmin4:
-    container_name: prod-app-pgadmin4
-    image: dpage/pgadmin4:latest
     restart: always
+    image: prod-app-pgadmin4
+    container_name: prod-app-pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL = xpert@xpertinc.co.kr
       PGADMIN_DEFAULT_PASSWORD = 1q2w3e!Q
     ports:
       - "5050:8080"
+    build:
+      context: .
+      dockerfile: dockerfiles/pgadmin4.Dockerfile
 
 
   prod-app-redis:
