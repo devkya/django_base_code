@@ -29,15 +29,10 @@ COPY server /app/server
 WORKDIR /app/server
 
 # ENTRYPOINT로 스크립트 실행
-ENTRYPOINT ["sh", "-c", "if [ \"$DEBUG\" = \"True\" ]; then \
-    export DJANGO_SETTINGS_MODULE=server.settings.development && \
-    python manage.py makemigrations --no-input && \
-    python manage.py migrate --no-input && \
-    python manage.py runserver 0.0.0.0:8000; \
-else \
+ENTRYPOINT ["sh", "-c", "\
     export DJANGO_SETTINGS_MODULE=server.settings.production && \
     python manage.py collectstatic --noinput && \
     python manage.py migrate --no-input && \
     gunicorn server.wsgi:application --bind 0.0.0.0:8000; \
-fi"]
+    "]
 

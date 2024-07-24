@@ -3,8 +3,6 @@ services:
     restart: always
     image: prod-app-server
     container_name: prod-app-server
-    environment:
-      - DEBUG=False
     build:
       context: .
       dockerfile: dockerfiles/django.Dockerfile
@@ -16,8 +14,6 @@ services:
     restart: always
     image: prod-app-daphne
     container_name: prod-app-daphne
-    environment:
-      - DEBUG=False
     ports:
       - "6000:6000"
     build:
@@ -37,7 +33,6 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/pgadmin4.Dockerfile
-
 
   prod-app-redis:
     image: redis:6.2.13-bookworm
