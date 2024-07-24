@@ -51,32 +51,5 @@ services:
     ports:
       - "6379:6379"
 
-  dev-app-celery-worker:
-      restart: always
-      image: dev-app-celery-worker
-      container_name: dev-app-celery-worker
-      environment:
-        - CELERY_WORKER=True
-        - DEBUG=True
-      build: 
-        context: .
-        dockerfile: dockerfiles/django.Dockerfile
-      depends_on:
-        - dev-app-db
-        - dev-app-redis
-        
-  dev-app-celery-beat:
-      restart: always
-      image: dev-app-celery-beat
-      container_name: dev-app-celery-beat
-      environment:
-        - CELERY_BEAT=True
-        - DEBUG=True
-      build: 
-        context: .
-        dockerfile: dockerfiles/django.Dockerfile
-      depends_on:
-        - dev-app-db
-        - dev-app-redis
-  
+
 

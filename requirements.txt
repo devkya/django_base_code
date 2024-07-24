@@ -12,4 +12,3 @@ gunicorn
 daphne
 boto3
 django-storages
-django-celery-beat

@@ -1,6 +1,5 @@
 from .base import *
 import environ
-from config.celery_schedule import CELERY_BEAT_SCHEDULE
 
 env = environ.Env()
 env.read_env(os.path.join(BASE_DIR, "env", "development.env"))
@@ -30,8 +29,3 @@ CHANNEL_LAYERS = {
         },
     },
 }
-
-# CELERY
-CELERY_BROKER_URL = "redis://dev-app-redis:6379/0"
-CELERY_RESULT_BACKEND = "redis://dev-app-redis:6379/0"
-CELERY_BEAT_SCHEDULE = CELERY_BEAT_SCHEDULE

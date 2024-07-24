@@ -1,17 +1,17 @@
 name: App Server CI/CD
 
 on:
-  push:
+  pull_request:
     branches:
-      - production
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
 
       - name: Copy repository to EC2
         uses: appleboy/scp-action@master
@@ -30,6 +30,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd /srv/app_server
+            docker-compose -f docker-compose-prod.yml down
             docker-compose -f docker-compose-prod.yml up -d --build
 
       - name: Prune Docker Build Cache
@@ -40,3 +41,14 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             docker system prune -a -f
+
+      # Slack notification
+#      - name: Notify Success - Slack
+#        if: success()
+#        run: |
+#          curl -X POST -H 'Content-type: application/json' --data '{"text":"Deployment to EC2 was successful!"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+#
+#      - name: Notify Failure - Slack
+#        if: failure()
+#        run: |
+#          curl -X POST -H 'Content-type: application/json' --data '{"text":"Deployment to EC2 failed!"}' ${{ secrets.SLACK_WEBHOOK_URL }}

@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     "corsheaders",
     "drf_spectacular",
     "django_cleanup.apps.CleanupConfig",
-    "django_celery_beat",
     # Apps
     "stream",
 ]
@@ -118,11 +117,6 @@ LOGGING = {
             # "filters": ["require_debug_false"],
             "formatter": "django.server",
         },
-        "mail_admins": {
-            "level": "CRITICAL",
-            "filters": ["require_debug_false"],
-            "class": "config.email_handler.CustomAdminEmailHandler",
-        },
         "file": {
             "level": "ERROR",
             "encoding": "utf-8",
@@ -151,25 +145,6 @@ LOGGING = {
     },
 }
 
-# 로그 메일 전달 이메일
-# TODO: EMAIL_LIST 변경(base.env)
-ADMINS = [
-    ("DevKya", "kihaok@xpertinc.co.kr"),
-]
-ADMINS = env.list("EMAIL_LIST")  # TODO: EMAIL_LIST 변경(base.env)
-
-# Email
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"  # 사용할 이메일 서버의 호스트
-EMAIL_PORT = 587  # 이메일 서버의 포트
-EMAIL_USE_TLS = True  # TLS 사용 설정
-EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")  # TODO: 이메일 계정(base.env 수정 필요)
-EMAIL_HOST_PASSWORD = env.str(
-    "EMAIL_HOST_PASSWORD"
-)  # TODO: 이메일 비밀번호(base.env 수정 필요)
-EMAIL_SUBJECT_PREFIX = env.str(
-    "EMAIL_SUBJECT_PREFIX"
-)  # TODO: 이메일 접두사(base.env 수정 필요)
 
 # CORS
 CORS_ALLOW_ALL_ORIGINS = True  # TODO: False로 변경

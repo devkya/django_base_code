@@ -1,9 +1,0 @@
-#!/bin/bash
-
-# dev.env에 설정되어 있는 값
-DB_NAME=dev-app-db
-DB_USER=admin
-DB_PASSWORD=1q2w3e!Q
-# docker-compose 의 db 컨테이너에 설정되어 있는 값
-DB_HOST=dev-app-db
-DB_PORT=5432

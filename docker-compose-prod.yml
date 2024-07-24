@@ -46,32 +46,5 @@ services:
       - "6379:6379"
 
 
-  prod-celery-worker:
-    restart: always
-    image: prod-celery-worker
-    container_name: prod-celery-worker
-    environment:
-      - CELERY_WORKER=True
-      - DEBUG=False
-    build:
-      context: .
-      dockerfile: dockerfiles/django.Dockerfile
-    depends_on:
-      - prod-redis
-
-
-  prod-celery-beat:
-    restart: always
-    image: prod-celery-beat
-    container_name: prod-celery-beat
-    environment:
-      - CELERY_BEAT=True
-      - DEBUG=False
-    build:
-      context: .
-      dockerfile: dockerfiles/django.Dockerfile
-    depends_on:
-      - prod-app-redis
-
 
 
