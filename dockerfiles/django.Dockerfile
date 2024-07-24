@@ -25,9 +25,19 @@ RUN pip install --upgrade pip \
 
 # 애플리케이션 소스 코드 복사
 COPY server /app/server
-COPY scripts/django-run.sh /app/
-RUN chmod +x /app/django-run.sh
+
+WORKDIR /app/server
 
 # ENTRYPOINT로 스크립트 실행
-ENTRYPOINT ["sh", "-c", "/app/django-run.sh"]
+ENTRYPOINT ["sh", "-c", "if [ \"$DEBUG\" = \"True\" ]; then \
+    export DJANGO_SETTINGS_MODULE=server.settings.development && \
+    python manage.py makemigrations --no-input && \
+    python manage.py migrate --no-input && \
+    python manage.py runserver 0.0.0.0:8000; \
+else \
+    export DJANGO_SETTINGS_MODULE=server.settings.production && \
+    python manage.py collectstatic --noinput && \
+    python manage.py migrate --no-input && \
+    gunicorn server.wsgi:application --bind 0.0.0.0:8000; \
+fi"]
 

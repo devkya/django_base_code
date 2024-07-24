@@ -23,15 +23,11 @@ RUN pip install --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt \
     && rm -rf /root/.cache/pip
 
-COPY ./server .
-COPY scripts/daphne-run.sh .
+COPY server /app/server
+WORKDIR /app/server
 
-# 스크립트 파일 실행 권한 부여
-RUN chmod +x /app/daphne-run.sh
-
-# ENTRYPOINT로 스크립트 실행
-ENTRYPOINT ["sh", "-c", "/app/daphne-run.sh"]
-
+# daphne 서버 실행
+CMD ["sh", "-c", "export DJANGO_SETTINGS_MODULE=server.settings.production && daphne -b 0.0.0.0 -p 6000 server.asgi:application"]
 
 
 

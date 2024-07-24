@@ -1,5 +1,4 @@
 from pathlib import Path
-from django.core.management.utils import get_random_secret_key
 import environ
 from datetime import timedelta
 import os
@@ -17,10 +16,7 @@ env = environ.Env()
 env.read_env(os.path.join(BASE_DIR, "env", "base.env"))
 
 LOGGING_NAME = env.str("LOGGING_NAME")
-SECRET_KEY = (
-    get_random_secret_key()
-)  # TODO: 고정값을 사용하는 것이 좋음(simplejwt sign key로 사용되기 때문에 변경 시 AUTH 문제 발생 가능)
-# SECRET_KEY = env.str("SECRET_KEY")
+SECRET_KEY = env.str("SECRET_KEY")
 
 # Application definition
 INSTALLED_APPS = [
@@ -139,7 +135,7 @@ LOGGING = {
             "propagate": True,
         },
         LOGGING_NAME: {
-            "handlers": ["console", "mail_admins", "file"],
+            "handlers": ["console", "file"],
             "level": "ERROR",
         },  # TODO: 로깅 이름 변경(base.env)
     },
