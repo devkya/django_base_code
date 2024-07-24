@@ -1,26 +1,8 @@
 services:
-  dev-app-server:
-    restart: always
-    image: dev-app-server
-    container_name: dev-app-server
-    environment:
-      - DEBUG=True
-    volumes:
-      - .:/app
-    build: 
-      context: .
-      dockerfile: dockerfiles/django.Dockerfile
-    ports:
-      - "8000:8000"
-    depends_on:
-      - dev-app-db
-    networks:
-      - dev-net
-
   dev-app-db:
     restart: always
     image: postgres:15.4-alpine
-    container_name:  dev-app-db
+    container_name: dev-app-db
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=1q2w3e!Q
@@ -30,7 +12,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - dev-net
+      - dev-network
 
   dev-app-pgadmin4:
     restart: always
@@ -49,7 +31,7 @@ services:
       context: .
       dockerfile: dockerfiles/pgadmin4.Dockerfile
     networks:
-      - dev-net
+      - dev-network
 
   dev-app-redis:
     image: redis:6.2.13-bookworm
@@ -57,9 +39,8 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - dev-net
+      - dev-network
 
 networks:
-  dev-net:
+  dev-network:
     driver: bridge
-
