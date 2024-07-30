@@ -26,8 +26,9 @@ RUN pip install --upgrade pip \
 COPY server /app/server
 WORKDIR /app/server
 
-# daphne 서버 실행
-CMD ["sh", "-c", "export DJANGO_SETTINGS_MODULE=server.settings.production && daphne -b 0.0.0.0 -p 6000 server.asgi:application"]
-
-
-
+# daphne 서버 실행 및 collectstatic 명령 실행
+CMD ["sh", "-c", "\
+    export DJANGO_SETTINGS_MODULE=server.settings.production && \
+    python manage.py collectstatic --noinput && \
+    daphne -b 0.0.0.0 -p 6000 server.asgi:application"
+    ]
