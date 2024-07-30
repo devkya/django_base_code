@@ -33,6 +33,7 @@ ENTRYPOINT ["sh", "-c", "\
     export DJANGO_SETTINGS_MODULE=server.settings.production && \
     python manage.py collectstatic --noinput && \
     python manage.py migrate --no-input && \
-    gunicorn server.wsgi:application --bind 0.0.0.0:8000; \
+    daphne -b 0.0.0.0 -p 6000 server.asgi:application; \
     "]
 
+# gunicorn server.wsgi:application --bind 0.0.0.0:8000;

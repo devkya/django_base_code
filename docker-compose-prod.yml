@@ -1,24 +1,24 @@
 services:
-  #  prod-app-server:
-  #    restart: always
-  #    image: prod-app-server
-  #    container_name: prod-app-server
-  #    build:
-  #      context: .
-  #      dockerfile: dockerfiles/django.Dockerfile
-  #    ports:
-  #      - "8000:8000"
-
-
   prod-app-server:
     restart: always
-    image: prod-app-daphne
-    container_name: prod-app-daphne
-    ports:
-      - "8000:8000"
+    image: prod-app-server
+    container_name: prod-app-server
     build:
       context: .
-      dockerfile: dockerfiles/daphne.Dockerfile
+      dockerfile: dockerfiles/django.Dockerfile
+    ports:
+      - "8000:8000"
+
+
+  #  prod-app-daphne:
+  #    restart: always
+  #    image: prod-app-daphne
+  #    container_name: prod-app-daphne
+  #    ports:
+  #      - "6000:6000"
+  #    build:
+  #      context: .
+  #      dockerfile: dockerfiles/daphne.Dockerfile
 
 
   prod-app-redis:
