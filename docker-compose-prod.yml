@@ -1,38 +1,25 @@
 services:
+  #  prod-app-server:
+  #    restart: always
+  #    image: prod-app-server
+  #    container_name: prod-app-server
+  #    build:
+  #      context: .
+  #      dockerfile: dockerfiles/django.Dockerfile
+  #    ports:
+  #      - "8000:8000"
+
+
   prod-app-server:
-    restart: always
-    image: prod-app-server
-    container_name: prod-app-server
-    build:
-      context: .
-      dockerfile: dockerfiles/django.Dockerfile
-    ports:
-      - "8000:8000"
-
-
-  prod-app-daphne:
     restart: always
     image: prod-app-daphne
     container_name: prod-app-daphne
     ports:
-      - "6000:6000"
+      - "8000:8000"
     build:
       context: .
       dockerfile: dockerfiles/daphne.Dockerfile
 
-
-  prod-app-pgadmin4:
-    restart: always
-    image: prod-app-pgadmin4
-    container_name: prod-app-pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL = xpert@xpertinc.co.kr
-      PGADMIN_DEFAULT_PASSWORD = 1q2w3e!Q
-    ports:
-      - "5050:8080"
-    build:
-      context: .
-      dockerfile: dockerfiles/pgadmin4.Dockerfile
 
   prod-app-redis:
     image: redis:6.2.13-bookworm

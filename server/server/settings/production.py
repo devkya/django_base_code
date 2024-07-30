@@ -6,7 +6,11 @@ env.read_env(os.path.join(BASE_DIR, "env", "production.env"))
 
 # GENERAL
 DEBUG = False
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", ] # TODO: 도메인, EC2  IP 추가해야 함
+
+REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = [
+    "rest_framework.renderers.JSONRenderer",
+]
 
 # DB
 DATABASES = {

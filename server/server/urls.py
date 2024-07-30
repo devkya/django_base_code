@@ -10,10 +10,12 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView,
 )
+from .views import HealthCheckView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api-auth/", include("rest_framework.urls")),
+    path("ping/", HealthCheckView.as_view(), name="ping"),
 ]
 
 # drf-spectacular
